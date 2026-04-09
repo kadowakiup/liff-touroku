@@ -1,4 +1,5 @@
 const GAS_URL = "https://script.google.com/macros/s/AKfycbyV2-Dc_QfGcpK1ZJPaHXS7pTvBmEcof0EV4Xv-utTSHnKiQGHprJzHyMNg8JeiNYDEXA/exec";
+let allOptions = []; // 取得した全データを保持する変数
 
 document.addEventListener("DOMContentLoaded", () => {
     liff.init({ liffId: "2009569390-tiaTgyA0" })
@@ -15,33 +16,44 @@ async function fetchOptions() {
     const select = document.getElementById("larkOptions");
     try {
         const response = await fetch(GAS_URL);
-        const text = await response.text(); // 一旦テキストで受ける（解析エラー対策）
-        
-        let data;
-        try {
-            data = JSON.parse(text);
-        } catch (e) {
-            throw new Error("GASのレスポンスがJSONではありません: " + text);
-        }
+        const data = await response.json(); 
 
         if (data.success && data.options) {
-            select.innerHTML = '<option value="">選択してください</option>';
-            data.options.forEach(item => {
-                const option = document.createElement("option");
-                option.text = item.label;
-                option.value = item.value;
-                select.appendChild(option);
-            });
+            allOptions = data.options; // データを保存
+            renderOptions(allOptions); // プルダウンを表示
         } else {
-            // エラー内容を詳細に表示
-            alert("データ取得失敗\n理由: " + data.message + "\nAnycross返却値: " + data.anycrossRaw);
+            alert("データ取得失敗: " + data.anycrossRaw);
         }
     } catch (err) {
         console.error("Fetch error:", err);
-        alert("システムエラーが発生しました\n" + err.message);
         select.innerHTML = '<option value="">読み込み失敗</option>';
     }
 }
+
+// プルダウンの中身を描画する共通関数
+function renderOptions(options) {
+    const select = document.getElementById("larkOptions");
+    select.innerHTML = '<option value="">選択してください</option>';
+    
+    options.forEach(item => {
+        const option = document.createElement("option");
+        option.text = item.label;
+        option.value = item.value;
+        select.appendChild(option);
+    });
+}
+
+// 検索窓に文字が入力された時の処理
+document.getElementById("searchInput").addEventListener("input", (e) => {
+    const keyword = e.target.value.toLowerCase(); // 小文字に統一して検索
+    
+    // 全データからキーワードが含まれるものだけを抽出
+    const filtered = allOptions.filter(item => 
+        item.label.toLowerCase().includes(keyword)
+    );
+    
+    renderOptions(filtered); // 絞り込んだ結果を再描画
+});
 
 document.getElementById("submitBtn").addEventListener("click", async () => {
     const selectedValue = document.getElementById("larkOptions").value;

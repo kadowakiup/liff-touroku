@@ -7,7 +7,22 @@
 </head>
 <body>
     <h2>レコード編集</h2>
-    
+    <div style="padding: 20px; font-family: sans-serif;">
+        <h3 style="border-bottom: 2px solid #00B900; padding-bottom: 5px;">名簿登録</h3>
+        
+        <p style="font-size: 14px; color: #666;">名前を入力して検索できます</p>
+        
+        <input type="text" id="searchInput" placeholder="例：葛西" 
+            style="width: 100%; height: 40px; font-size: 16px; margin-bottom: 10px; padding: 0 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
+
+        <select id="larkOptions" style="width: 100%; height: 45px; font-size: 16px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
+            <option value="">読み込み中...</option>
+        </select>
+
+        <button id="submitBtn" style="width: 100%; height: 50px; background-color: #00B900; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer;">
+            登録を確定する
+        </button>
+    </div>
     <label for="larkOptions">項目を選択してください:</label><br>
     <select id="larkOptions">
         <option value="">読み込み中...</option>
