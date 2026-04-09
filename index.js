@@ -1,7 +1,7 @@
 const GAS_URL = "https://script.google.com/macros/s/AKfycbyV2-Dc_QfGcpK1ZJPaHXS7pTvBmEcof0EV4Xv-utTSHnKiQGHprJzHyMNg8JeiNYDEXA/exec"; // ※デプロイURLを入れてください
 
 let allOptions = [];
-let currentSelectedValue = ""; // 選択されたID（opt...）を保存しておく変数
+let currentSelectedName = ""; // 名前（label）を保存する変数に変更
 
 document.addEventListener("DOMContentLoaded", () => {
     liff.init({ liffId: "2009569390-tiaTgyA0" })
@@ -55,13 +55,14 @@ function renderOptions(options) {
         div.className = "option-item";
         div.textContent = item.label;
         
-        // リスト内の名前がタップされた時の処理
         div.addEventListener("click", () => {
-            currentSelectedValue = item.value; // 値（ID）を保存
-            document.getElementById("selectedDisplay").textContent = item.label; // 表面の文字を変える
-            document.getElementById("dropdownList").classList.remove("show"); // リストを閉じる
-            document.getElementById("searchInput").value = ""; // 検索窓を空に戻す
-            renderOptions(allOptions); // リストを全員表示に戻しておく
+            // 修正箇所: item.value ではなく item.label を保存する
+            currentSelectedName = item.label; 
+            
+            document.getElementById("selectedDisplay").textContent = item.label;
+            document.getElementById("dropdownList").classList.remove("show");
+            document.getElementById("searchInput").value = "";
+            renderOptions(allOptions);
         });
         
         container.appendChild(div);
@@ -111,8 +112,8 @@ document.getElementById("submitBtn").addEventListener("click", async () => {
         const response = await fetch(GAS_URL, {
             method: "POST",
             body: JSON.stringify({ 
-                selectedValue: currentSelectedValue, 
-                lineId: lineUserId // ★ここでLINE IDを追加
+                selectedName: currentSelectedName, // キー名をselectedNameなどに変更
+                lineId: lineUserId 
             })
         });
         const data = await response.json();
