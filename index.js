@@ -121,15 +121,26 @@ document.getElementById("submitBtn").addEventListener("click", async () => {
         if (response.ok && data.success) {
             // ▼ Anycrossから届いたメッセージ("登録完了")を表示！
             alert(data.message || "登録が完了しました！");
-            liff.closeWindow();
+            
+            // ▼ ここから変更：LINEの中か外かで閉じ方を分ける
+            if (liff.isInClient()) {
+                // LINEアプリ内ならスッと閉じる
+                liff.closeWindow(); 
+            } else {
+                // Chromeなど外部ブラウザなら、画面を真っ白にしてメッセージを出す
+                window.close(); // （効けばラッキー程度）
+                document.body.innerHTML = '<div style="text-align:center; padding:50px; margin-top:50px; font-weight:bold; color:#00B900;">登録が完了しました。<br>この画面（タブ）を閉じてください。</div>';
+            }
+            // ▲ 変更ここまで
+
         } else {
             alert("更新失敗: " + (data.message || ""));
             btn.disabled = false;
-            btn.innerText = "登録ボタン";
+            btn.innerText = "登録する";
         }
     } catch (err) {
         alert("通信エラー: " + err.message);
         btn.disabled = false;
-        btn.innerText = "登録ボタン";
+        btn.innerText = "登録する";
     }
 });
