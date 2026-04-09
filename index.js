@@ -112,14 +112,15 @@ document.getElementById("submitBtn").addEventListener("click", async () => {
         const response = await fetch(GAS_URL, {
             method: "POST",
             body: JSON.stringify({ 
-                selectedName: currentSelectedName, // キー名をselectedNameなどに変更
+                selectedName: currentSelectedName, 
                 lineId: lineUserId 
             })
         });
         const data = await response.json();
 
         if (response.ok && data.success) {
-            await liff.sendMessages([{ type: "text", text: "完了しました" }]);
+            // ▼ Anycrossから届いたメッセージ("登録完了")を表示！
+            alert(data.message || "登録が完了しました！");
             liff.closeWindow();
         } else {
             alert("更新失敗: " + (data.message || ""));
