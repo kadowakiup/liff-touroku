@@ -96,16 +96,24 @@ document.addEventListener("click", (e) => {
 document.getElementById("submitBtn").addEventListener("click", async () => {
     const btn = document.getElementById("submitBtn");
 
-    // 変数 currentSelectedValue にIDが入っているか確認
+    // 氏名が選ばれているかチェック
     if (!currentSelectedValue) return alert("氏名を選択してください");
 
     btn.disabled = true;
     btn.innerText = "送信中...";
 
     try {
+        // ★LIFFからLINEプロフィールを取得し、ユーザーIDを取り出す
+        const profile = await liff.getProfile();
+        const lineUserId = profile.userId;
+
+        // GASへデータを送信
         const response = await fetch(GAS_URL, {
             method: "POST",
-            body: JSON.stringify({ selectedValue: currentSelectedValue })
+            body: JSON.stringify({ 
+                selectedValue: currentSelectedValue, 
+                lineId: lineUserId // ★ここでLINE IDを追加
+            })
         });
         const data = await response.json();
 
