@@ -98,7 +98,7 @@ document.getElementById("submitBtn").addEventListener("click", async () => {
     const btn = document.getElementById("submitBtn");
 
     // 氏名が選ばれているかチェック
-    if (!currentSelectedValue) return alert("氏名を選択してください");
+    if (!currentselectedName) return alert("氏名を選択してください");
 
     btn.disabled = true;
     btn.innerText = "送信中...";
