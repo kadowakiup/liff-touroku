@@ -1,35 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lark Record Editor</title>
+    <title>Lark登録</title>
+    <style>
+        /* オリジナルプルダウンのスタイル */
+        .custom-select {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        /* 選択されている文字を表示する箱 */
+        .select-selected {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        /* 開いたときに出てくるリスト枠 */
+        .select-items {
+            display: none; /* 初期状態は隠す */
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            max-height: 350px; /* 長すぎる場合はスクロール */
+            overflow-y: auto;
+            z-index: 99;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-top: 5px;
+        }
+        .select-items.show {
+            display: block; /* JSでこのクラスをつけて表示させる */
+        }
+        /* リスト内の検索窓（スクロールしても上に固定） */
+        .search-box {
+            padding: 10px;
+            position: sticky;
+            top: 0;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+        }
+        .search-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        /* リストの各項目 */
+        .option-item {
+            padding: 12px 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            font-size: 16px;
+        }
+        .option-item:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
 </head>
 <body>
-    <h2>レコード編集</h2>
     <div style="padding: 20px; font-family: sans-serif;">
         <h3 style="border-bottom: 2px solid #00B900; padding-bottom: 5px;">名簿登録</h3>
         
-        <p style="font-size: 14px; color: #666;">名前を入力して検索できます</p>
+        <p style="font-size: 14px; color: #666;">登録する氏名を選択してください。</p>
         
-        <input type="text" id="searchInput" placeholder="例：葛西" 
-            style="width: 100%; height: 40px; font-size: 16px; margin-bottom: 10px; padding: 0 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
-
-        <select id="larkOptions" style="width: 100%; height: 45px; font-size: 16px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
-            <option value="">読み込み中...</option>
-        </select>
+        <div class="custom-select" id="customSelect">
+            <div class="select-selected" id="selectedDisplay">読み込み中...</div>
+            
+            <div class="select-items" id="dropdownList">
+                <div class="search-box">
+                    <input type="text" id="searchInput" class="search-input" placeholder="名前で検索 (例: 葛西)">
+                </div>
+                <div id="optionsContainer">
+                    </div>
+            </div>
+        </div>
 
         <button id="submitBtn" style="width: 100%; height: 50px; background-color: #00B900; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer;">
             登録を確定する
         </button>
     </div>
-    <label for="larkOptions">項目を選択してください:</label><br>
-    <select id="larkOptions">
-        <option value="">読み込み中...</option>
-    </select>
-
-    <br><br>
-    <button id="submitBtn">登録</button>
 
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script src="index.js"></script>
