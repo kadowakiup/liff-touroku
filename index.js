@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbyV2-Dc_QfGcpK1ZJPaHXS7pTvBmEcof0EV4Xv-utTSHnKiQGHprJzHyMNg8JeiNYDEXA/exec"; // ※デプロイURLを入れてください
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxP-3ye0KQn1hcnO1E5XUWyhib-A0fu_skxnVBOe1kt1tKS7Phgs5Ul_UtzFzQ2Umof/exec"; // ※デプロイURLを入れてください
 
 let allOptions = [];
 let currentSelectedName = ""; // 名前（label）を保存する変数に変更
