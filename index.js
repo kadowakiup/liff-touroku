@@ -115,7 +115,7 @@ document.getElementById("submitBtn").addEventListener("click", async () => {
             btn.innerText = "登録する";
         }
     } catch (err) {
-        alert("通信エラー: " + err.message + "：先にメニュー「登録」から自分の名前を登録してください");
+        alert("通信エラー: " + err.message);
         btn.disabled = false;
         btn.innerText = "登録する";
     }
