@@ -4,7 +4,7 @@ let allOptions = [];
 let currentSelectedName = "";
 
 document.addEventListener("DOMContentLoaded", () => {
-    liff.init({ liffId: "2009569390-tiaTgyA0" })
+    liff.init({ liffId: "2009827198-qvnHhjxl" })
         .then(() => {
             if (!liff.isLoggedIn()) {
                 liff.login();
